@@ -107,13 +107,13 @@ local function draw_info_text(text, infotext, posX, posY, distance, size1, size2
 end
 
 local function dec_to_ipv4(ip)
-	return string.format(
-		"%i.%i.%i.%i", 
-		ip >> 24 & 0xFF, 
-		ip >> 16 & 0xFF, 
-		ip >> 8  & 0xFF, 
-		ip 		 & 0xFF
-	)
+    return string.format(
+        "%i.%i.%i.%i", 
+        ip >> 24 & 0xFF, 
+        ip >> 16 & 0xFF, 
+        ip >> 8  & 0xFF, 
+        ip       & 0xFF
+    )
 end
 
 local all_weapons = {}
@@ -839,11 +839,11 @@ firework_list:list_select(T"Type", {}, "", firework_names, 1, function(index)
             effect_name = "scr_indep_firework_fountain"
             break
         case 2:
-		    firework_type = "ind_prop_firework_02"
+            firework_type = "ind_prop_firework_02"
             effect_name = "scr_indep_firework_shotburst"
             break
         case 3:
-		    firework_type = "ind_prop_firework_03"
+            firework_type = "ind_prop_firework_03"
             effect_name = "scr_indep_firework_trailburst"
             break
     end
@@ -854,7 +854,7 @@ end)
 ---------
 local firework_timer = 10
 firework_list:slider(T"Timer", {"Nfireworktimer"}, "", 1, 20, 10, 1, function(count)
-	firework_timer = count
+    firework_timer = count
 end)
 
 ---------
@@ -901,24 +901,24 @@ end)
 -----------------
 local bounce_height = 15
 bouncy_water_list:slider(T"Bounce Height", {"Nbounceheight"}, "", 1, 100, 15, 1, function(count)
-	bounce_height = count
+    bounce_height = count
 end)
 
 ----------------
 --BOUNCY WATER--
 ----------------
 bouncy_water_list:toggle_loop(T"Bouncy Water", {}, "", function()
-	if is_ped_in_any_vehicle(players.user_ped(), false) then
-		if is_entity_in_water(entities.get_user_vehicle_as_handle(false)) then
-			local vel = v3.new(get_entity_velocity(entities.get_user_vehicle_as_handle(false)))
-			set_entity_velocity(entities.get_user_vehicle_as_handle(false), vel.x, vel.y, bounce_height)
-		end
-	else
-		if is_entity_in_water(players.user_ped()) then
-			local vel = v3.new(get_entity_velocity(entities.get_user_vehicle_as_handle(false)))
-			set_entity_velocity(players.user_ped(), vel.x, vel.y, bounce_height)
-		end
-	end
+    if is_ped_in_any_vehicle(players.user_ped(), false) then
+        if is_entity_in_water(entities.get_user_vehicle_as_handle(false)) then
+            local vel = v3.new(get_entity_velocity(entities.get_user_vehicle_as_handle(false)))
+            set_entity_velocity(entities.get_user_vehicle_as_handle(false), vel.x, vel.y, bounce_height)
+        end
+    else
+        if is_entity_in_water(players.user_ped()) then
+            local vel = v3.new(get_entity_velocity(entities.get_user_vehicle_as_handle(false)))
+            set_entity_velocity(players.user_ped(), vel.x, vel.y, bounce_height)
+        end
+    end
 end)
 
 -----------------------
@@ -950,66 +950,66 @@ end)
 --TRAIN KEY CONTROL--
 ---------------------
 train_controls_list:toggle_loop(T"Train Key Control", {}, "", function()
-	if is_ped_in_any_train(players.user_ped()) then
+    if is_ped_in_any_train(players.user_ped()) then
         local train = entities.get_user_vehicle_as_handle(false)
         local train_max_speed = get_vehicle_estimated_max_speed(train)
-		local control_pressed = false
-		if is_disabled_control_pressed(2, 32) then
-			train_max_speed = train_max_speed + 10
-			control_pressed = true
-		end
-		if is_disabled_control_pressed(2, 33) then
-			train_max_speed = train_max_speed - 20
-			control_pressed = true
-		end
-		if control_pressed then
-			set_train_speed(train, train_max_speed)
-			set_train_cruise_speed(train, train_max_speed)
-		end
-	end
+        local control_pressed = false
+        if is_disabled_control_pressed(2, 32) then
+            train_max_speed = train_max_speed + 10
+            control_pressed = true
+        end
+        if is_disabled_control_pressed(2, 33) then
+            train_max_speed = train_max_speed - 20
+            control_pressed = true
+        end
+        if control_pressed then
+            set_train_speed(train, train_max_speed)
+            set_train_cruise_speed(train, train_max_speed)
+        end
+    end
 end)
 
 --------------
 --HALT TRAIN--
 --------------
 train_controls_list:toggle_loop(T"Halt Train", {}, "", function()
-	if is_ped_in_any_train(players.user_ped()) then
+    if is_ped_in_any_train(players.user_ped()) then
         local train = entities.get_user_vehicle_as_handle(false)
-		set_train_speed(train, 0.0)
-		set_train_cruise_speed(train, 0.0)
-	end
+        set_train_speed(train, 0.0)
+        set_train_cruise_speed(train, 0.0)
+    end
 end, function()
     local train = entities.get_user_vehicle_as_handle(false)
     local train_max_speed = get_vehicle_estimated_max_speed(train)
-	set_train_speed(train, train_max_speed)
-	set_train_cruise_speed(train, train_max_speed)
+    set_train_speed(train, train_max_speed)
+    set_train_cruise_speed(train, train_max_speed)
 end)
 
 ---------------------
 --FORCE LEAVE TRAIN--
 ---------------------
 train_controls_list:action(T"Force Leave Train", {}, "", function()
-	if is_ped_in_any_train(players.user_ped()) then
-		clear_ped_tasks_immediately(players.user_ped())
-	end
+    if is_ped_in_any_train(players.user_ped()) then
+        clear_ped_tasks_immediately(players.user_ped())
+    end
 end)
 
 ----------
 --DERAIL--
 ----------
 train_controls_list:toggle_loop(T"Derail", {}, "", function()
-	if is_ped_in_any_train(players.user_ped()) then
+    if is_ped_in_any_train(players.user_ped()) then
         local train = entities.get_user_vehicle_as_handle(false)
-		set_render_train_as_derailed(train, true)
-		set_train_speed(train, 0.0)
-		set_train_cruise_speed(train, 0.0)
-	end
+        set_render_train_as_derailed(train, true)
+        set_train_speed(train, 0.0)
+        set_train_cruise_speed(train, 0.0)
+    end
 end, function()
     local train = entities.get_user_vehicle_as_handle(false)
     local train_max_speed = get_vehicle_estimated_max_speed(train)
-	set_render_train_as_derailed(train, false)
-	set_train_speed(train, train_max_speed)
-	set_train_cruise_speed(train, train_max_speed)
+    set_render_train_as_derailed(train, false)
+    set_train_speed(train, train_max_speed)
+    set_train_cruise_speed(train, train_max_speed)
 end)
 
 -------------------
@@ -1212,7 +1212,7 @@ world_main:toggle_loop(T"Aim Information", {}, "", function()
                 draw_info_text(data.label, data.value, 0.52, 0.35 + (i-1) * 0.025, 130, 0.45, 0.44, true)
             end
         end
-	end
+    end
 end)
 
 -----------------
@@ -1392,7 +1392,7 @@ world_main:toggle_loop(T"World Hacking", {}, "", function()
                                 break
                             case 2:
                                 local ped_coords = get_offset_from_entity_in_world_coords(entity, -3, 0, 0)
-	                    	    local hash = util.joaat("adder")
+                                local hash = util.joaat("adder")
                                 util.request_model(hash)
                                 local vehicle = entities.create_vehicle(hash, ped_coords, 0)
                                 set_ped_into_vehicle(entity, vehicle, -1)
@@ -1405,7 +1405,7 @@ world_main:toggle_loop(T"World Hacking", {}, "", function()
                                 break
                             case 4:
                                 local ped_coords = get_entity_coords(entity, true)
-	                    	    func.create_nuke_explosion(ped_coords)
+                                func.create_nuke_explosion(ped_coords)
                                 break
                         end
                         break
@@ -1417,34 +1417,34 @@ world_main:toggle_loop(T"World Hacking", {}, "", function()
                                 break
                             case 2:
                                 local pid = network_get_player_index_from_ped(entity)
-	                    	    for i, slasher in spawned_slashers do
+                                for i, slasher in spawned_slashers do
                                     if slasher.ped != nil and does_entity_exist(slasher.ped) then
                                         entities.delete_by_handle(slasher.ped)
                                     end
                             
                                     if does_blip_exist(slasher.blip) then
-	                            		util.remove_blip(slasher.blip)
+                                        util.remove_blip(slasher.blip)
                                     end
                                 end
                                 local slasher_ped, slasher_blip
                                 local ped = get_player_ped_script_index(pid)
-	                            if slasher_ped == nil or not does_entity_exist(slasher_ped) then
+                                if slasher_ped == nil or not does_entity_exist(slasher_ped) then
                                     local offset = get_offset_from_entity_in_world_coords(entity, math.random(-15, 15), math.random(-15, 15), 0.0)
                                     slasher_ped = func.create_slasher(entity, offset)
                             
                                     if slasher_blip == nil or not does_blip_exist(slasher_blip) then
-	                            		if has_entity_been_damaged_by_entity(entity, slasher_ped, true) or has_entity_been_damaged_by_entity(slasher_ped, entity, true) or is_entity_on_screen(slasher_ped) then
-	                            			slasher_blip = add_blip_for_entity(slasher_ped)
-	                            			task_combat_ped(slasher_ped, entity, 0, 16)
-	                            			set_ped_hearing_range(slasher_ped, 100)
-	                            			set_ped_seeing_range(slasher_ped, 100)
-	                            			set_blip_sprite(slasher_blip, 84)
-	                            			set_blip_colour(slasher_blip, 1)
-	                            			set_blip_name_from_text_file(slasher_blip, "SERIALKILLBLIP" --[[ GXT: Los Santos Slasher --]])
-	                            			stop_ped_speaking(slasher_ped, false)
-	                            			set_blip_flashes(slasher_blip, true)
-	                            			set_blip_flash_interval(slasher_blip, 250)
-	                            			set_blip_flash_timer(slasher_blip, 7000)
+                                        if has_entity_been_damaged_by_entity(entity, slasher_ped, true) or has_entity_been_damaged_by_entity(slasher_ped, entity, true) or is_entity_on_screen(slasher_ped) then
+                                            slasher_blip = add_blip_for_entity(slasher_ped)
+                                            task_combat_ped(slasher_ped, entity, 0, 16)
+                                            set_ped_hearing_range(slasher_ped, 100)
+                                            set_ped_seeing_range(slasher_ped, 100)
+                                            set_blip_sprite(slasher_blip, 84)
+                                            set_blip_colour(slasher_blip, 1)
+                                            set_blip_name_from_text_file(slasher_blip, "SERIALKILLBLIP" --[[ GXT: Los Santos Slasher --]])
+                                            stop_ped_speaking(slasher_ped, false)
+                                            set_blip_flashes(slasher_blip, true)
+                                            set_blip_flash_interval(slasher_blip, 250)
+                                            set_blip_flash_timer(slasher_blip, 7000)
                                         end
                                     end
                             
@@ -1452,16 +1452,16 @@ world_main:toggle_loop(T"World Hacking", {}, "", function()
                                 end
                                 if slasher_ped != nil and does_entity_exist(slasher_ped) then
                                     while not is_entity_dead(slasher_ped, false) do
-	                            		set_ped_reset_flag(slasher_ped, 394, true)
-	                            		set_ped_reset_flag(slasher_ped, 240, true)
+                                        set_ped_reset_flag(slasher_ped, 394, true)
+                                        set_ped_reset_flag(slasher_ped, 240, true)
                                         set_ped_as_enemy(slasher_ped, true)
                                         task_go_to_entity(slasher_ped, player_ped, 20000, 0.5, 2, 2, 0)
                                         util.yield(50)
-	                            	end
+                                    end
                             
-	                            	if is_entity_dead(slasher_ped, false) then
-	                            		if does_blip_exist(slasher_blip) then
-	                            			util.remove_blip(slasher_blip)
+                                    if is_entity_dead(slasher_ped, false) then
+                                        if does_blip_exist(slasher_blip) then
+                                            util.remove_blip(slasher_blip)
                                         end
                                     end
                                 end
@@ -1472,7 +1472,7 @@ world_main:toggle_loop(T"World Hacking", {}, "", function()
                                 break
                             case 4:
                                 local ped_coords = get_entity_coords(entity, true)
-	                    	    func.create_nuke_explosion(ped_coords)
+                                func.create_nuke_explosion(ped_coords)
                                 break
                             case 5:
                                 for i = 1, 25 do
@@ -1507,45 +1507,45 @@ world_main:toggle_loop(T"World Hacking", {}, "", function()
                                 local random_offset = get_offset_from_entity_in_world_coords(entity, math.random(-8, 8), math.random(-8, 8), 0)
                                 local clown_hash = util.joaat("s_m_y_clown_01")
                                 util.request_model(clown_hash)
-	                            local clown_ped = entities.create_ped(0, clown_hash, random_offset, 0.0)
+                                local clown_ped = entities.create_ped(0, clown_hash, random_offset, 0.0)
                                 local target_position = get_entity_coords(entity, true)
                                 set_entity_invincible(clown_ped, true)
                                 entities.set_can_migrate(clown_ped, false)
                                 set_blocking_of_non_temporary_events(clown_ped, true)
-	                            task_go_to_coord_any_means(clown_ped, target_position.x, target_position.y, target_position.z, 5.0, 0, false, 0, 0.0)
+                                task_go_to_coord_any_means(clown_ped, target_position.x, target_position.y, target_position.z, 5.0, 0, false, 0, 0.0)
                                 set_ped_keep_task(clown_ped, true)
-	                            stop_ped_speaking(clown_ped, true)
+                                stop_ped_speaking(clown_ped, true)
                             
-	                            func.use_fx_asset("scr_rcbarry2")
-	                            start_networked_particle_fx_non_looped_on_entity("scr_clown_appears", clown_ped, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.5, false, false, false)
+                                func.use_fx_asset("scr_rcbarry2")
+                                start_networked_particle_fx_non_looped_on_entity("scr_clown_appears", clown_ped, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.5, false, false, false)
                             
-	                            local ped_pos = get_entity_coords(clown_ped, true)
+                                local ped_pos = get_entity_coords(clown_ped, true)
                                 local rel = v3.new(target_position)
                                 rel:sub(ped_pos)
                                 local rot = rel:toRot()
                                 set_entity_rotation(clown_ped, rot.x, rot.y, rot.z, 2, false)
                             
-	                            util.create_tick_handler(function()
-	                            	local ped_pos = get_entity_coords(clown_ped, true)
-	                            	local target_position = get_entity_coords(entity, true)
-	                            	if not does_entity_exist(clown_ped) then
-	                            		return false
-	                            	elseif func.get_distance_between(ped_pos, target_position) > 50 then
-	                            		entities.delete_by_handle(clown_ped)
-	                            		return false
-	                            	elseif func.get_distance_between(ped_pos, target_position) < 3.0 then
-	                            		func.use_fx_asset("scr_rcbarry2")
-	                            		start_networked_particle_fx_non_looped_at_coord("scr_exp_clown", ped_pos.x, ped_pos.y, ped_pos.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
-	                            		add_explosion(ped_pos.x, ped_pos.y, ped_pos.z, 1, 1, true, true, 0.5, false)
-	                            		entities.delete_by_handle(clown_ped)
-	                            		return false
-	                            	elseif func.get_distance_between(ped_pos, target_position) > 3.0 then
+                                util.create_tick_handler(function()
+                                    local ped_pos = get_entity_coords(clown_ped, true)
+                                    local target_position = get_entity_coords(entity, true)
+                                    if not does_entity_exist(clown_ped) then
+                                        return false
+                                    elseif func.get_distance_between(ped_pos, target_position) > 50 then
+                                        entities.delete_by_handle(clown_ped)
+                                        return false
+                                    elseif func.get_distance_between(ped_pos, target_position) < 3.0 then
+                                        func.use_fx_asset("scr_rcbarry2")
+                                        start_networked_particle_fx_non_looped_at_coord("scr_exp_clown", ped_pos.x, ped_pos.y, ped_pos.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+                                        add_explosion(ped_pos.x, ped_pos.y, ped_pos.z, 1, 1, true, true, 0.5, false)
+                                        entities.delete_by_handle(clown_ped)
+                                        return false
+                                    elseif func.get_distance_between(ped_pos, target_position) > 3.0 then
                                         if func.get_entity_control_onces(clown_ped) then
-	                            		    task_go_to_coord_any_means(clown_ped, target_position.x, target_position.y, target_position.z, 5.0, 0, false, 0, 0.0)
+                                            task_go_to_coord_any_means(clown_ped, target_position.x, target_position.y, target_position.z, 5.0, 0, false, 0, 0.0)
                                             util.yield(100)
                                         end
-	                            	end
-	                            end)
+                                    end
+                                end)
                                 break
                         end
                     break
@@ -1577,7 +1577,7 @@ world_main:toggle_loop(T"Projectile Marker", {}, "", function()
     for i, weap in throwables do
         if get_coords_of_projectile_type_within_distance(players.user_ped(), util.joaat(weap), 100, projectile_coords, false) then
             func.rainbow_colour(marker_color)
-	        draw_marker(28, projectile_coords.x, projectile_coords.y, projectile_coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 1, marker_color.r, marker_color.g, marker_color.b, marker_color.a, false, false, 0, true, 0, 0, false)
+            draw_marker(28, projectile_coords.x, projectile_coords.y, projectile_coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 1, marker_color.r, marker_color.g, marker_color.b, marker_color.a, false, false, 0, true, 0, 0, false)
         end
     end
 end)
