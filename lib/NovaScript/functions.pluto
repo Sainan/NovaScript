@@ -1,3 +1,5 @@
+pluto_use "0.5.0"
+
 require("NovaScript.NovaScript_natives")
 local tables = require("NovaScript.tables")
 local T = require("NovaScript.NovaS_translations")
